@@ -7,7 +7,7 @@ permalink:          /
 ---
 
 
-## StackExpress Articles
+## Articles
 
 - VCS/SCM
 - CI/CD
