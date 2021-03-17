@@ -1,1 +1,21 @@
-theme: jekyll-theme-cayman
+# Setup
+title:              Articles from StackExpress.com
+tagline:            Articles earned from wysdom and experience over years.
+description:        Articles earned from wysdom and experience over years.
+baseurl:            ""
+paginate:           1
+locale:             "en"
+show_downloads:     true
+google_analytics:   G-EM6PMSQZNM
+
+# About/contact
+author:
+  name:             Shivam Bajpai
+  url:              https://StackExpress.com 
+
+# Gems
+gems:
+  - jekyll-paginate
+
+#Others
+markdown: kramdown
