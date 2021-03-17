@@ -7,7 +7,7 @@ paginate:           1
 locale:             "en"
 show_downloads:     true
 google_analytics:   G-EM6PMSQZNM
-theme: jekyll-theme-cayman
+theme:              jekyll-theme-cayman
 
 # About/contact
 author:
