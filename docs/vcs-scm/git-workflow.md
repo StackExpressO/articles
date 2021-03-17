@@ -95,3 +95,63 @@ git rebase master
 git push origin <new_feature_branch_name>
 ```
 
+
+## Create a Pull request
+
+- Go to git repository on your browser
+
+- Create a new pull request to desired branch (uat or master)
+
+- Verify the new changes from PR
+
+- Merge the changes with master
+
+
+## Rebase and resolve conflict
+
+- Check if you have any modified files which are not committed
+
+```bash
+git status
+```
+
+- If there are any modified files then commit them first
+
+- Initiate the rebase process (from master branch)
+
+```bash
+git rebase master
+```
+
+- Check if there are any conflicts
+
+```bash
+git status
+```
+
+- If there are any conflicts then follow these steps
+
+- Open conflicted files  and resolve code conflicts in each conflicted file
+
+- Add the resolved conflicted files to git
+
+```bash
+git add <file1> <file2> …
+```
+
+- Now resume the rebase process
+
+```bash
+git rebase --continue
+```
+
+- Check if there is conflict in any other files 
+
+```bash
+git status
+```
+
+- If there is still conflicts in file go to step 4.5 again
+
+- Rebase is done.
+
