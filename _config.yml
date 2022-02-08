@@ -18,5 +18,9 @@ author:
 gems:
   - jekyll-paginate
 
-#Others
+# Others
 markdown: kramdown
+
+# Site Configs
+categories: [devops, developers, git, cicd]
+

@@ -3,6 +3,7 @@ layout: default
 title: Git workflow for developers
 nav_order: 3
 description: This workflow is for developers making contributions for CI/CD enabled repository
+categories: [git, developers]
 permalink: /vcs-scm/git-workflow-for-developers
 ---
 
