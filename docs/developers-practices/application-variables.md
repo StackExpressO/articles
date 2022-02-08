@@ -1,4 +1,17 @@
-# How to define application variables
+---
+layout: default
+title: How to define application variables
+nav_order: 3
+description: Application variables usage
+categories: [git, developers]
+permalink: /developers-practices/application-variables
+---
+
+# Get Started
+{: .fs-9 }
+
+## How to define application variables
+
 
 1. .env.example should keep the dummy values, not the real values.
 1. If the mode is development then load from .env file (Not .env.example)
