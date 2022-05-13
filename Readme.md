@@ -30,14 +30,19 @@ Creating an Amazon EKS cluster
 1. Existing kubernetes cluster
 1. Install kubectl on computer  
 
-`   `curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/ 1.21.2/2021-07-05/bin/linux/amd64/kubectl
-
-`   `To install kubectl for different kubernetes versions ( https:// docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html )
+```bash
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/ 1.21.2/2021-07-05/bin/linux/amd64/kubectl
+```
+To install kubectl for different kubernetes versions 
+```bash
+https:// docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+```
 
 3. We need to configure kubectl to communicate with the cluster for that we need to create kubeconfig for Amazon EKS, to create kubeconfig we need to    install AWS-CLI on our computer.
 
 **Install aws-cli**
 
+```bash
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86\_64.zip" -o "awscliv2.zip"
 
 unzip awscliv2.zip
@@ -45,22 +50,30 @@ unzip awscliv2.zip
 sudo ./aws/install
 
 ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
-
+```
+```bash
 aws --version
+```
 
 Refer this link for aws-cli installation - [https://docs.aws.amazon.com/eks/latest/](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)
 
 [userguide/create-kubeconfig.html](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)
 
-4. After completion of **aws-cli** installation we need to create kubeconfig file     **To Create kubeconfig file automatically follow the steps**
-- Check the aws-cli version by run the command **aws --version**
+4. After completion of **aws-cli** installation we need to create kubeconfig file,  **To Create kubeconfig file automatically follow the steps**
+- Check the aws-cli version by run the command 
+```bash
+aws --version
+```
 - Create or update a kubeconfig file for your cluster
 
-`             `**aws eks update-kubeconfig --region region-code --name cluster-name**
-
+```bash
+aws eks update-kubeconfig --region region-code --name cluster-name
+```
 - Test your configuration 
 
-`             `**kubectl get svc**
+```bash
+kubectl get svc
+```
 
 Refer this link for creating kubeconfig - [https://docs.aws.amazon.com/eks/ latest/userguide/create-kubeconfig.html](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)
 
@@ -68,37 +81,148 @@ Refer this link for creating kubeconfig - [https://docs.aws.amazon.com/eks/ late
 
 1. To deploy the appilcation to eks we need to clone the code templates 
 
-(https://gitlab.com/stackexpresso/devops/code-templates/-/tree/master/ kubernetes/. application-deployments/nginx-example)
+(https://gitlab.com/stackexpresso/devops/code-templates/-/tree/master/kubernetes/application-deployments/nginx-example/nginx-example-web)
 
 2. Create a namespace
 
-`       `For example - kubectl create namespace example
+    For example 
+    ```bash
+    kubectl create namespace example
+    ```
 
 3. To Deploy the application to EKS first we need to apply the deployment.yaml file (nginx-example-web-deployment.yaml) which we have in code templates   
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.006.png)    To apply the deployment manifest file we need to run the following command **kubectl apply -f nginx-example-web-deployment.yaml**
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-example-web
+  namespace: example
+  labels:
+    app: nginx-example-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-example-web
+  template:
+    metadata:
+      labels:
+        app: nginx-example-web
+    spec:
+      containers:
+      - name: nginx-example-web
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: API_HOST
+            value: https://test.example.com
+          - name: REACT_APP_API_HOST
+            value: https://test2.example.com
+```
+To apply the deployment manifest file we need to run the following command 
+```bash
+kubectl apply -f nginx-example-web-deployment.yaml
+ ```
+4. Instead of hard coding the values in the deployment file we can create secrets.yaml file (if we need any secrets in deployment file)
 
-4. Instead of hard coding the values in the deployment file we can create secrets.yaml file
+Example:
+```bash
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keys-appname-web
+  namespace: example
+type: Opaque
+data:
+  DB_HOST: cGctc2Vy=
+  DB_PORT: NTQswD==
+  DB_USERNAME: b21ub21u=
+  DB_PASSWORD: M28yUM28yUM28yUM28yU=
+  DB_NAME: b2b2b2==
+  SECRET_KEY_BASE: NWFtNWFtNWFtNWFtNWFtNWFtNWFtNWFtNWFtNWFtNWFt=
+  AWS_ACCESS_KEY_ID: MzRhMzRhMzRhMzRhMzRhMzRhMzRhMzRhMzRh==
+  AWS_SECRET_ACCESS_KEY: VUdVUdVUdVUdVUd=
+  AWS_REGION: c2Zvc2Zvc2Zvc2Zvc2Zvc2Zv
+  AWS_ENDPOINT: TmVTmVTmVTmVTmVTmVTmV==
+```
 
-`       `Example:
-
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.007.png)
-
-` `To apply secret.yml file run **kubectl apply -f secret.yml**
-
+To apply secret.yml file run 
+```bash
+kubectl apply -f secret.yml
+```
 5. After apply the deployment file we need to apply service manifest file (nginx-example-web-service.yaml ) which we have in code templates
 
-    then it will make our application accessible
-
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.008.png)
-
-`       `To apply the service manifest file we need to run the following command   
-
-`        `**kubectl apply -f nginx-example-web-service.yaml**        it will create the service for our application.
+   then it will make our application accessible
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-example-web
+  namespace: example
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: nginx-example-web
+```
+To apply the service manifest file we need to run the following command   
+```bash
+kubectl apply -f nginx-example-web-service.yaml  
+```    
+it will create the service for our application.
 
 6. Now we need to apply the ingress file (nginx-example-ingress.yaml) which we have in code templates, ingress will manage external access to our service
+```bash
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  namespace: example
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.009.png)        To apply the ingress we need to run the following command **kubectl apply -f nginx-example-ingress.yaml** it will apply the ingress rules for our service
+spec:
+  tls:
+  - hosts:
+    - example.com
+    - example1.com
+    secretName: nginx-example-tls
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-example-web
+          servicePort: 80
+        path: /(.*)
+  - host: example1.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-example-web
+          servicePort: 80
+        path: /(.*)
+``` 
 
-7. To see the all resources exist in the name space run kubectl get all -n example
+
+   
+To apply the ingress we need to run the following command 
+```bash
+kubectl apply -f nginx-example-ingress.yaml
+```
+it will apply the ingress rules for our service
+
+7. To see the all resources exist in the name space run 
+```bash
+kubectl get all -n example
+```
 7. Now we need to create ssl certificate for that follow the link - **https:// kubernetes.io/docs/tasks/administer-cluster/certificates/**
