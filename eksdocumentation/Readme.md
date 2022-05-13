@@ -4,22 +4,23 @@ Creating an Amazon EKS cluster
 
 1. Go to the aws console and choose the region and search for eks on navigation bar
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.001.png)
+![Aspose Words 3536303c-37c2-4423-ade8-b6504f62d085 001](https://user-images.githubusercontent.com/95607370/168243700-0d53021a-335f-436e-bd1e-0b59aae0f01c.png)
 
 2. Click on Elastic Kubernetes Service it will navigate to the page and then click on clusters and then click on create cluster
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.002.png)
+![Aspose Words 3536303c-37c2-4423-ade8-b6504f62d085 002](https://user-images.githubusercontent.com/95607370/168243802-059f6db2-4278-44d5-af80-d0f545f2c086.png)
 
 3. After click on create cluster we need to select cluster template (EC2 Linux)
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.003.png)
+![Aspose Words 3536303c-37c2-4423-ade8-b6504f62d085 003](https://user-images.githubusercontent.com/95607370/168243891-e7af9362-6d32-4333-9c6d-c7a8bc38b2bc.png)
 
 4. After selecting the cluster template (EC2 Linux) click on Next step
+
 5. Now we need to configure the cluster by define cluster name and instance type and number of instances and VPC and instance IAM role etc . 
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.004.png)
+![Aspose Words 3536303c-37c2-4423-ade8-b6504f62d085 004](https://user-images.githubusercontent.com/95607370/168244007-65891f55-6542-46fd-8f17-4872a16fa00d.png)
 
-![](Aspose.Words.3536303c-37c2-4423-ade8-b6504f62d085.005.png)
+![Aspose Words 3536303c-37c2-4423-ade8-b6504f62d085 005](https://user-images.githubusercontent.com/95607370/168244065-15b2f9e6-ca29-464f-81a0-3eb656e15c1b.png)
 
 6. After completion of cluster configuration click on create it will create the eks cluster
 
