@@ -226,4 +226,4 @@ it will apply the ingress rules for our service
 ```bash
 kubectl get all -n example
 ```
-7. Now we need to create ssl certificate for that follow the link - **https:// kubernetes.io/docs/tasks/administer-cluster/certificates/**
+8. Now we need to create ssl certificate for that follow the link - **https:// kubernetes.io/docs/tasks/administer-cluster/certificates/**
